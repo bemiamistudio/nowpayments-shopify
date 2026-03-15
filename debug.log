@@ -1,0 +1,791 @@
+
+> nowpayments@ shopify /Users/mackmac/nowpayments
+> shopify app dev --verbose
+
+2026-03-14T17:32:29.157Z: Running command app dev
+2026-03-14T17:32:29.161Z: Running system process in background:
+  · Command: /usr/local/bin/node /usr/local/bin/shopify notifications list --ignore-errors
+  · Working directory: /Users/mackmac/nowpayments
+
+2026-03-14T17:32:29.168Z: Notifications to show: 0
+2026-03-14T17:32:29.182Z: Reading cached app information for directory /Users/mackmac/nowpayments...
+2026-03-14T17:32:29.182Z: Reading the content of file at shopify.app.toml...
+2026-03-14T17:32:29.186Z: Reading the content of file at shopify.app.toml...
+2026-03-14T17:32:29.188Z: Ensuring that the user is authenticated with the App Management API with the following scopes:
+[]
+
+2026-03-14T17:32:29.189Z: Getting session store...
+2026-03-14T17:32:29.190Z: Getting current session ID...
+2026-03-14T17:32:29.190Z: Validating existing session against the scopes:
+[
+  "openid",
+  "https://api.shopify.com/auth/shop.admin.graphql",
+  "https://api.shopify.com/auth/shop.admin.themes",
+  "https://api.shopify.com/auth/partners.collaborator-relationships.readonly",
+  "https://api.shopify.com/auth/shop.storefront-renderer.devtools",
+  "https://api.shopify.com/auth/partners.app.cli.access",
+  "https://api.shopify.com/auth/destinations.readonly",
+  "https://api.shopify.com/auth/organization.store-management",
+  "https://api.shopify.com/auth/organization.on-demand-user-access",
+  "https://api.shopify.com/auth/organization.apps.manage"
+]
+For applications:
+{
+  "appManagementApi": {
+    "scopes": []
+  },
+  "businessPlatformApi": {
+    "scopes": []
+  }
+}
+
+2026-03-14T17:32:29.190Z: - Token validation -> It's expired: false
+2026-03-14T17:32:29.192Z: Sending "BusinessPlatform" GraphQL request:
+  query UserInfo {
+  currentUserAccount {
+    uuid
+    email
+    organizations(first: 2) {
+      nodes {
+        name
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://destinations.shopifysvc.com/destinations/api/2020-07/graphql
+2026-03-14T17:32:29.200Z: Sending "App Management" GraphQL request:
+  query ActiveAppReleaseFromApiKey($apiKey: String!) {
+  app: appByKey(key: $apiKey) {
+    ...AppVersionInfo
+    __typename
+  }
+}
+
+fragment ReleasedAppModule on AppModule {
+  uuid
+  userIdentifier
+  handle
+  config
+  target
+  specification {
+    identifier
+    externalIdentifier
+    name
+    managementExperience
+  }
+}
+
+fragment AppVersionInfo on App {
+  id
+  key
+  organizationId
+  activeRoot {
+    clientCredentials {
+      secrets {
+        key
+      }
+    }
+    grantedShopifyApprovalScopes
+  }
+  activeRelease {
+    id
+    version {
+      name
+      appModules {
+        ...ReleasedAppModule
+      }
+    }
+  }
+}
+
+With variables:
+{
+  "apiKey": "*****"
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://app.shopify.com/app_management/unstable/graphql.json
+2026-03-14T17:32:29.545Z: Request to https://app.shopify.com/app_management/unstable/graphql.json completed in 345 ms
+With response headers:
+ - content-type: application/json; charset=utf-8
+ - server-timing: processing;dur=124, verdict_flag_enabled;desc="count=2";dur=0.382, _y;desc="76c4953b-9874-4bbb-b6d8-9f4d7d68d52a", _s;desc="f4cf2cc5-b4c0-444a-84c9-536a52929d00", cfRequestDuration;dur=195.999861
+ - x-request-id: 1e373706-eb72-4fd2-9172-fd429364acb1-1773509549
+    
+2026-03-14T17:32:29.548Z: Sending "BusinessPlatform" GraphQL request:
+  query FindOrganizations($organizationId: OrganizationID!) {
+  currentUserAccount {
+    organization(id: $organizationId) {
+      id
+      name
+      __typename
+    }
+    __typename
+  }
+}
+
+With variables:
+{
+  "organizationId": "Z2lkOi8vb3JnYW5pemF0aW9uL09yZ2FuaXphdGlvbi8xODQ0MzQyODQ="
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://destinations.shopifysvc.com/destinations/api/2020-07/graphql
+2026-03-14T17:32:29.551Z: Sending "App Management" GraphQL request:
+  query fetchSpecifications($organizationId: ID!) {
+  specifications(organizationId: $organizationId) {
+    name
+    identifier
+    externalIdentifier
+    features
+    uidStrategy {
+      appModuleLimit
+      isClientProvided
+      __typename
+    }
+    validationSchema {
+      jsonSchema
+      __typename
+    }
+    __typename
+  }
+}
+
+With variables:
+{
+  "organizationId": "gid://shopify/Organization/184434284"
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://app.shopify.com/app_management/unstable/graphql.json
+2026-03-14T17:32:30.342Z: Request to https://app.shopify.com/app_management/unstable/graphql.json completed in 790 ms
+With response headers:
+ - content-type: application/json; charset=utf-8
+ - server-timing: processing;dur=175, verdict_flag_enabled;desc="count=5";dur=0.54, _y;desc="9013a4e8-5e02-426a-acb9-df091ab98df5", _s;desc="3a783d82-8b2e-448c-9d98-772a0cb6fba1", cfRequestDuration;dur=666.999817
+ - x-request-id: fce35311-585e-4382-98f3-450c98101ae9-1773509549
+    
+2026-03-14T17:32:30.354Z: The following extension specifications were defined locally but not found in the remote specifications: events, tax_calculation
+2026-03-14T17:32:30.354Z: The following extension specifications were found in the remote specifications but not defined locally: admin_app, app_link, app_nav_item, bulk_action, checkout_script_tag, flow_action_definition, flow_trigger_definition, flow_trigger_discovery_webhook, manage_marketplaces, marketing_action, marketing_activity_extension, merchandising_create_publication, merchandising_fulfillment_variant_details, ping_message_callback, pos_link, product_configuration_link, resource_publication_settings, retail_cart_promotion, retail_product_recommendation, subscription_link
+2026-03-14T17:32:30.357Z: Reading the content of file at .gitignore...
+2026-03-14T17:32:30.706Z: Reading the content of file at package.json...
+2026-03-14T17:32:30.709Z: Running system process:
+  · Command: npm prefix
+  · Working directory: /Users/mackmac/nowpayments
+
+2026-03-14T17:32:30.898Z: Obtaining the dependency manager in directory /Users/mackmac/nowpayments...
+2026-03-14T17:32:30.899Z: Reading the content of file at package.json...
+2026-03-14T17:32:30.899Z: Reading the content of file at .shopify/project.json...
+2026-03-14T17:32:30.902Z: Reading the content of file at shopify.web.toml...
+2026-03-14T17:32:30.905Z: Notifications to show: 0
+2026-03-14T17:32:30.906Z: Reading cached app information for directory /Users/mackmac/nowpayments...
+2026-03-14T17:32:30.907Z: Storing app information for directory /Users/mackmac/nowpayments:{
+  "appId": "09d51298c36ef050bf1615c09e888950",
+  "title": "nowpayments",
+  "directory": "/Users/mackmac/nowpayments",
+  "orgId": "184434284"
+}
+2026-03-14T17:32:30.913Z: Sending "BusinessPlatform" GraphQL request:
+  query FetchStoreByDomain($domain: String, $storeTypes: String!) {
+  organization {
+    id
+    name
+    accessibleShops(
+      filters: {field: STORE_TYPE, operator: IN, value: $storeTypes}
+      search: $domain
+    ) {
+      edges {
+        node {
+          id
+          externalId
+          name
+          storeType
+          primaryDomain
+          shortName
+          url
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    currentUser {
+      organizationPermissions
+      __typename
+    }
+    __typename
+  }
+}
+
+With variables:
+{
+  "domain": "nowpayments-dev.myshopify.com",
+  "storeTypes": "app_development"
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://destinations.shopifysvc.com/organizations/api/unstable/organization/184434284/graphql
+2026-03-14T17:32:31.226Z: Request to https://destinations.shopifysvc.com/organizations/api/unstable/organization/184434284/graphql completed in 312 ms
+With response headers:
+ - cache-control: max-age=0, private, must-revalidate
+ - content-type: application/json; charset=utf-8
+ - etag: W/"647ecf406d4ca06523ef4a6c050504d4"
+ - server-timing: processing;dur=97, socket_queue;dur=2.53, util;dur=0.12, cfRequestDuration;dur=132.999897
+ - x-request-id: 5ef894b4-95ce-4bdb-a02b-9abe58836ce5-1773509551
+    
+2026-03-14T17:32:31.227Z: Sending "BusinessPlatform" GraphQL request:
+  mutation ProvisionShopAccess($input: OrganizationUserProvisionShopAccessInput!) {
+  organizationUserProvisionShopAccess(
+    organizationUserProvisionShopAccessInput: $input
+  ) {
+    success
+    userErrors {
+      message
+      __typename
+    }
+    __typename
+  }
+}
+
+With variables:
+{
+  "input": {
+    "shopifyShopId": "Z2lkOi8vb3JnYW5pemF0aW9uL1Nob3BpZnlTaG9wLzk2MzYyMDcwMzgz"
+  }
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://destinations.shopifysvc.com/organizations/api/unstable/organization/184434284/graphql
+2026-03-14T17:32:31.389Z: Request to https://destinations.shopifysvc.com/organizations/api/unstable/organization/184434284/graphql completed in 162 ms
+With response headers:
+ - cache-control: max-age=0, private, must-revalidate
+ - content-type: application/json; charset=utf-8
+ - etag: W/"68abd614679dbb04670a77b6743f6a0e"
+ - server-timing: processing;dur=46, socket_queue;dur=1.919, util;dur=0.08, cfRequestDuration;dur=85.999727
+ - x-request-id: 82241046-0ca9-45ea-8cbc-6b3510b8bc24-1773509551
+    
+2026-03-14T17:32:31.389Z: Getting a random port...
+2026-03-14T17:32:31.391Z: Random port obtained: 52345
+2026-03-14T17:32:31.426Z: cloudflared already installed, skipping
+2026-03-14T17:32:31.429Z: Running system process:
+  · Command: /usr/local/lib/node_modules/@shopify/cli/bin/cloudflared tunnel --url http://localhost:52345 --no-autoupdate
+  · Working directory: /Users/mackmac/nowpayments
+
+2026-03-14T17:32:31.434Z: Sending "App Management" GraphQL request:
+  query ActiveAppReleaseFromApiKey($apiKey: String!) {
+  app: appByKey(key: $apiKey) {
+    ...AppVersionInfo
+    __typename
+  }
+}
+
+fragment ReleasedAppModule on AppModule {
+  uuid
+  userIdentifier
+  handle
+  config
+  target
+  specification {
+    identifier
+    externalIdentifier
+    name
+    managementExperience
+  }
+}
+
+fragment AppVersionInfo on App {
+  id
+  key
+  organizationId
+  activeRoot {
+    clientCredentials {
+      secrets {
+        key
+      }
+    }
+    grantedShopifyApprovalScopes
+  }
+  activeRelease {
+    id
+    version {
+      name
+      appModules {
+        ...ReleasedAppModule
+      }
+    }
+  }
+}
+
+With variables:
+{
+  "apiKey": "*****"
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://app.shopify.com/app_management/unstable/graphql.json
+2026-03-14T17:32:31.461Z: 2026-03-14T17:32:31Z INF Thank you for trying Cloudflare Tunnel. Doing so, without a Cloudflare account, is a quick way to experiment and try it out. However, be aware that these account-less Tunnels have no uptime guarantee. If you intend to use Tunnels in production you should use a pre-created named tunnel by following: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps
+2026-03-14T17:32:31Z INF Requesting new quick Tunnel on trycloudflare.com...
+
+2026-03-14T17:32:31.700Z: Request to https://app.shopify.com/app_management/unstable/graphql.json completed in 266 ms
+With response headers:
+ - content-type: application/json; charset=utf-8
+ - server-timing: processing;dur=125, verdict_flag_enabled;desc="count=2";dur=0.378, _y;desc="a6064408-42f3-476a-a9d7-e588c06ea1aa", _s;desc="c6d6af35-13ba-4b7e-b85f-a6b444ea3f8c", cfRequestDuration;dur=190.000057
+ - x-request-id: 3d9fbdb5-a9e2-4f08-8ef7-878fc5488219-1773509551
+    
+2026-03-14T17:32:31.703Z: Reading cached app information for directory /Users/mackmac/nowpayments...
+╭─ info ───────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  Using shopify.app.toml for default values:                                  │
+│                                                                              │
+│    • Org:             Bemiamistudio                                          │
+│    • App:             nowpayments                                            │
+│    • Dev store:       nowpayments-dev.myshopify.com                          │
+│    • Update URLs:     Yes                                                    │
+│                                                                              │
+│   You can pass `--reset` to your command to reset your app configuration.    │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+2026-03-14T17:32:31.731Z: Port 3457 is free
+2026-03-14T17:32:31.732Z: Polling tunnel status for cloudflare (attempt 0): starting
+2026-03-14T17:32:31.732Z: Getting a random port...
+2026-03-14T17:32:31.733Z: Random port obtained: 52350
+2026-03-14T17:32:32.233Z: Polling tunnel status for cloudflare (attempt 1): starting
+2026-03-14T17:32:32.735Z: Polling tunnel status for cloudflare (attempt 2): starting
+2026-03-14T17:32:33.236Z: Polling tunnel status for cloudflare (attempt 3): starting
+2026-03-14T17:32:33.738Z: Polling tunnel status for cloudflare (attempt 4): starting
+2026-03-14T17:32:34.239Z: Polling tunnel status for cloudflare (attempt 5): starting
+2026-03-14T17:32:34.740Z: Polling tunnel status for cloudflare (attempt 6): starting
+2026-03-14T17:32:35.241Z: Polling tunnel status for cloudflare (attempt 7): starting
+2026-03-14T17:32:35.741Z: Polling tunnel status for cloudflare (attempt 8): starting
+2026-03-14T17:32:36.241Z: Polling tunnel status for cloudflare (attempt 9): starting
+2026-03-14T17:32:36.741Z: Polling tunnel status for cloudflare (attempt 10): starting
+2026-03-14T17:32:37.243Z: Polling tunnel status for cloudflare (attempt 11): starting
+2026-03-14T17:32:37.744Z: Polling tunnel status for cloudflare (attempt 12): starting
+2026-03-14T17:32:38.245Z: Polling tunnel status for cloudflare (attempt 13): starting
+2026-03-14T17:32:38.746Z: Polling tunnel status for cloudflare (attempt 14): starting
+2026-03-14T17:32:39.247Z: Polling tunnel status for cloudflare (attempt 15): starting
+2026-03-14T17:32:39.555Z: 2026-03-14T17:32:39Z INF +--------------------------------------------------------------------------------------------+
+2026-03-14T17:32:39Z INF |  Your quick Tunnel has been created! Visit it at (it may take some time to be reachable):  |
+
+2026-03-14T17:32:39.555Z: 2026-03-14T17:32:39Z INF |  https://desktops-traveller-dealer-thesis.trycloudflare.com                                |
+2026-03-14T17:32:39Z INF +--------------------------------------------------------------------------------------------+
+2026-03-14T17:32:39Z INF Cannot determine default configuration path. No file [config.yml config.yaml] in [~/.cloudflared ~/.cloudflare-warp ~/cloudflare-warp /etc/cloudflared /usr/local/etc/cloudflared]
+
+2026-03-14T17:32:39.555Z: 2026-03-14T17:32:39Z INF Version 2024.8.2
+2026-03-14T17:32:39Z INF GOOS: darwin, GOVersion: go1.22.2-devel-cf, GoArch: amd64
+2026-03-14T17:32:39Z INF Settings: map[ha-connections:1 no-autoupdate:true protocol:quic url:http://localhost:52345]
+
+2026-03-14T17:32:39.556Z: 2026-03-14T17:32:39Z INF Generated Connector ID: 5bf9e66b-aab5-4a55-9009-b2d22d3a31be
+
+2026-03-14T17:32:39.588Z: 2026-03-14T17:32:39Z INF Initial protocol quic
+
+2026-03-14T17:32:39.589Z: 2026-03-14T17:32:39Z INF ICMP proxy will use 10.0.0.66 as source for IPv4
+
+2026-03-14T17:32:39.589Z: 2026-03-14T17:32:39Z INF ICMP proxy will use fe80::1c15:ac76:492c:291b in zone en1 as source for IPv6
+
+2026-03-14T17:32:39.589Z: 2026-03-14T17:32:39Z INF Created ICMP proxy listening on 10.0.0.66:0
+
+2026-03-14T17:32:39.590Z: 2026-03-14T17:32:39Z INF Created ICMP proxy listening on [fe80::1c15:ac76:492c:291b%en1]:0
+
+2026-03-14T17:32:39.615Z: 2026-03-14T17:32:39Z INF Starting metrics server on 127.0.0.1:52352/metrics
+
+2026-03-14T17:32:39.697Z: 2026-03-14T17:32:39Z WRN Your version 2024.8.2 is outdated. We recommend upgrading it to 2026.3.0
+
+2026-03-14T17:32:39.748Z: Polling tunnel status for cloudflare (attempt 16): starting
+2026-03-14T17:32:39.957Z: 2026-03-14T17:32:39Z INF Registered tunnel connection connIndex=0 connection=55ee1184-ccfc-4d90-80dc-a4deac5cd709 event=0 ip=198.41.192.47 location=mia01 protocol=quic
+
+2026-03-14T17:32:40.250Z: Polling tunnel status for cloudflare (attempt 17): connected
+2026-03-14T17:32:40.250Z: Reading cached app information for directory /Users/mackmac/nowpayments...
+2026-03-14T17:32:40.255Z: Sending "App Management" GraphQL request:
+  query ActiveAppReleaseFromApiKey($apiKey: String!) {
+  app: appByKey(key: $apiKey) {
+    ...AppVersionInfo
+    __typename
+  }
+}
+
+fragment ReleasedAppModule on AppModule {
+  uuid
+  userIdentifier
+  handle
+  config
+  target
+  specification {
+    identifier
+    externalIdentifier
+    name
+    managementExperience
+  }
+}
+
+fragment AppVersionInfo on App {
+  id
+  key
+  organizationId
+  activeRoot {
+    clientCredentials {
+      secrets {
+        key
+      }
+    }
+    grantedShopifyApprovalScopes
+  }
+  activeRelease {
+    id
+    version {
+      name
+      appModules {
+        ...ReleasedAppModule
+      }
+    }
+  }
+}
+
+With variables:
+{
+  "apiKey": "*****"
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://app.shopify.com/app_management/unstable/graphql.json
+2026-03-14T17:32:40.588Z: Request to https://app.shopify.com/app_management/unstable/graphql.json completed in 333 ms
+With response headers:
+ - content-type: application/json; charset=utf-8
+ - server-timing: processing;dur=142, verdict_flag_enabled;desc="count=2";dur=0.293, _y;desc="307194d7-aaff-4e43-aaea-5b97497a7805", _s;desc="b58dbff3-e9d4-4872-b3fd-49b7fba40350", cfRequestDuration;dur=212.000132
+ - x-request-id: 28747c7f-4a14-4742-995d-294ec9a4a151-1773509560
+    
+2026-03-14T17:32:40.591Z: Reading cached app information for directory /Users/mackmac/nowpayments...
+2026-03-14T17:32:40.592Z: Reading the content of file at shopify.app.toml...
+2026-03-14T17:32:40.593Z: Reading the content of file at shopify.app.toml...
+2026-03-14T17:32:40.594Z: Reading the content of file at .gitignore...
+2026-03-14T17:32:40.598Z: Reading the content of file at .shopify/project.json...
+2026-03-14T17:32:40.600Z: Reading the content of file at shopify.web.toml...
+2026-03-14T17:32:40.601Z: Notifications to show: 0
+2026-03-14T17:32:40.603Z: Getting a random port...
+2026-03-14T17:32:40.604Z: Random port obtained: 52354
+2026-03-14T17:32:40.604Z: Storing app information for directory /Users/mackmac/nowpayments:{
+  "directory": "/Users/mackmac/nowpayments",
+  "previousAppId": "09d51298c36ef050bf1615c09e888950"
+}
+2026-03-14T17:32:40.622Z: Running system process:
+  · Command: npm prefix
+  · Working directory: /Users/mackmac/nowpayments
+
+2026-03-14T17:32:40.801Z: Obtaining the dependency manager in directory /Users/mackmac/nowpayments...
+2026-03-14T17:32:41.250Z: Request to https://monorail-edge.shopifysvc.com/v1/produce completed in 262 ms
+With response headers:
+ - x-request-id: 4068d632-e814-4ce1-bb55-71ccff578165
+    
+2026-03-14T17:32:41.250Z: Analytics event sent: {
+  "command": "app dev",
+  "time_start": 1773509549158,
+  "time_end": 1773509560619,
+  "total_time": 11461,
+  "success": true,
+  "cli_version": "3.92.1",
+  "ruby_version": "",
+  "node_version": "24.14.0",
+  "is_employee": false,
+  "uname": "darwin amd64",
+  "env_ci": false,
+  "env_plugin_installed_any_custom": false,
+  "env_plugin_installed_shopify": "[\"@shopify/cli\"]",
+  "env_shell": "zsh",
+  "env_device_id": "a356654d19e0ec780e142553e010bf2e24057f11",
+  "env_cloud": "localhost",
+  "env_package_manager": "pnpm",
+  "env_is_global": true,
+  "env_auth_method": "device_auth",
+  "env_is_wsl": false,
+  "env_build_repository": "Shopify/cli",
+  "cmd_app_warning_api_key_deprecation_displayed": false,
+  "cmd_app_all_configs_any": true,
+  "cmd_app_all_configs_clients": "{\"shopify.app.toml\":\"09d51298c36ef050bf1615c09e888950\"}",
+  "cmd_app_linked_config_used": true,
+  "cmd_app_linked_config_name": "shopify.app.toml",
+  "cmd_app_linked_config_git_tracked": true,
+  "cmd_app_linked_config_source": "flag",
+  "cmd_app_linked_config_uses_cli_managed_urls": true,
+  "project_type": "node",
+  "app_extensions_any": false,
+  "app_extensions_breakdown": "{}",
+  "app_extensions_count": 0,
+  "app_extensions_custom_layout": false,
+  "app_extensions_function_any": false,
+  "app_extensions_function_count": 0,
+  "app_extensions_theme_any": false,
+  "app_extensions_theme_count": 0,
+  "app_extensions_ui_any": false,
+  "app_extensions_ui_count": 0,
+  "app_name_hash": "e4b8c38510c05f795fc3eff36dff97157f7dfafe",
+  "app_path_hash": "aa3bf162efdff98a2fd7e4feb4179517ce49c9c3",
+  "app_scopes": "[\"read_all_orders\",\"read_draft_orders\",\"read_orders\",\"read_products\",\"write_draft_orders\",\"write_orders\",\"write_products\"]",
+  "app_web_backend_any": true,
+  "app_web_backend_count": 1,
+  "app_web_custom_layout": true,
+  "app_web_framework": "unknown",
+  "app_web_frontend_any": true,
+  "app_web_frontend_count": 1,
+  "env_package_manager_workspaces": true,
+  "business_platform_id": 184434284,
+  "api_key": "****",
+  "cmd_app_reset_used": false,
+  "store_fqdn_hash": "87d863404c46b842e2b59ce21c848f447bc0a8a5",
+  "cmd_dev_tunnel_type": "auto",
+  "cmd_dev_urls_updated": true,
+  "cmd_app_dependency_installation_skipped": false,
+  "cmd_all_timing_network_ms": 2209,
+  "cmd_all_timing_prompts_ms": 0,
+  "cmd_all_launcher": "pnpm",
+  "cmd_all_topic": "app",
+  "cmd_all_plugin": "@shopify/app",
+  "cmd_all_verbose": true,
+  "cmd_all_path_override": true,
+  "cmd_all_path_override_hash": "aa3bf162efdff98a2fd7e4feb4179517ce49c9c3",
+  "cmd_all_last_graphql_request_id": "28747c7f-4a14-4742-995d-294ec9a4a151-1773509560",
+  "cmd_all_timing_active_ms": 9251,
+  "cmd_all_exit": "ok",
+  "user_id": "7bb960bc-37b0-459d-bb89-588b24feffdd",
+  "request_ids": [
+    "1e373706-eb72-4fd2-9172-fd429364acb1-1773509549",
+    "fce35311-585e-4382-98f3-450c98101ae9-1773509549",
+    "5ef894b4-95ce-4bdb-a02b-9abe58836ce5-1773509551",
+    "82241046-0ca9-45ea-8cbc-6b3510b8bc24-1773509551",
+    "3d9fbdb5-a9e2-4f08-8ef7-878fc5488219-1773509551",
+    "28747c7f-4a14-4742-995d-294ec9a4a151-1773509560"
+  ],
+  "args": "--verbose",
+  "app_name": "nowpayments",
+  "store_fqdn": "nowpayments-dev.myshopify.com",
+  "env_plugin_installed_all": "[\"@shopify/cli\"]",
+  "env_shopify_variables": "{}",
+  "metadata": "{\"extraPublic\":{},\"extraSensitive\":{}}"
+}
+Running pre-dev command: "npx prisma generate"2026-03-14T17:32:41.252Z: Running system process:
+  · Command: npx prisma generate
+  · Working directory: /Users/mackmac/nowpayments
+
+2026-03-14T17:32:41.253Z: Setting up GraphiQL HTTP server on port 3457...Preparing dev preview on nowpayments-dev.myshopify.com2026-03-14T17:32:41.258Z: Setting up the UI extensions HTTP server...2026-03-14T17:32:41.259Z: Setting up the UI extensions Websocket server...2026-03-14T17:32:41.259Z: Setting up the UI extensions bundler and file watching...Proxy server started on port 52345 GraphiQL server started on port 34572026-03-14T17:32:41.264Z: Removing directory at .shopify/dev-bundle...
+2026-03-14T17:32:41.267Z: Creating directory at .shopify/dev-bundle...
+2026-03-14T17:32:41.273Z: File watcher started with 2 paths2026-03-14T17:32:41.405Z: Removing file at /var/folders/tk/n_yhz58n6zg_rs_gg6xc8n7m0000gn/T/ad0432bc-7614-4c24-bb77-47cd84d5c9ec.tar...
+npm warn Unknown env config "shamefully-hoist". This will stop working in the next major version of npm.
+npm warn Unknown env config "npm-globalconfig". This will stop working in the next major version of npm.
+npm warn Unknown env config "verify-deps-before-run". This will stop working in the next major version of npm.
+npm warn Unknown env config "auto-install-peers". This will stop working in the next major version of npm.
+npm warn Unknown env config "_jsr-registry". This will stop working in the next major version of npm.
+npm warn Unknown project config "shamefully-hoist". This will stop working in the next major version of npm.
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm.
+2026-03-14T17:32:41.411Z: Sending "App Management" GraphQL request:
+  mutation CreateAssetURL($sourceExtension: SourceExtension!, $organizationId: ID!) {
+  appRequestSourceUploadUrl(
+    sourceExtension: $sourceExtension
+    organizationId: $organizationId
+  ) {
+    sourceUploadUrl
+    userErrors {
+      field
+      message
+      __typename
+    }
+    __typename
+  }
+}
+
+With variables:
+{
+  "sourceExtension": "BR",
+  "organizationId": "gid://shopify/Organization/184434284"
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://app.shopify.com/app_management/unstable/graphql.json
+2026-03-14T17:32:41.413Z: Sync-reading the content of file at .shopify/dev-bundle.br...
+2026-03-14T17:32:41.736Z: Request to https://partners-extensions-scripts-bucket.storage.googleapis.com/deployments/app_sources/184434284/2c66695c-745a-4a50-87dc-1f5701508419/source.br?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=argo-project-sa%40shopify-tiers.iam.gserviceaccount.com%2F20260314%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260314T171856Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=28d16e0354c363f9950fabd0f25d7f37b8822759a10b01a3ef5aba91d4452b12e7512523a9ab7501fda8fe8180543b5e32b37b7dfdb7c3e4dd58c1a9b9c5cd37d4d36bf1387bfafc41c286359c3f2bdfcf76e662e7baa19e4d4d7bb6060f95744e164271ecf869bd3aced0988507995ea8097dc1767d1967ab12e33d775ec75bb02204fc15e446e4fa2df63262bf5a275359a9dda826e8624a69c32b4a4139e8c59e9fda6a5e0be99c75af98d13a02710f2907b17c79a89498c232ba526d508beee1d62c4845ba43fc9759b191487903b628df431ab5a04ca82cba2ec1cba48bcb33512be49574510116486d18a7b680fea27d350605750d45ed7492ea8cf704 completed in 322 ms
+With response headers:
+ - content-type: text/html; charset=UTF-8
+ - etag: "66058f503465c74c522abdfcbb63fc26"
+    
+2026-03-14T17:32:41.739Z: Sending "App Dev" GraphQL request:
+  mutation DevSessionCreate($appId: String!, $assetsUrl: String!, $websocketUrl: String) {
+  devSessionCreate(
+    appId: $appId
+    assetsUrl: $assetsUrl
+    websocketUrl: $websocketUrl
+  ) {
+    devSession {
+      websocketUrl
+      updatedAt
+      user {
+        id
+        email
+        __typename
+      }
+      app {
+        id
+        key
+        __typename
+      }
+      __typename
+    }
+    warnings {
+      message
+      code
+      __typename
+    }
+    userErrors {
+      message
+      on
+      field
+      category
+      __typename
+    }
+    __typename
+  }
+}
+
+With variables:
+{
+  "appId": "334488305665",
+  "assetsUrl": "https://partners-extensions-scripts-bucket.storage.googleapis.com/deployments/app_sources/184434284/2c66695c-745a-4a50-87dc-1f5701508419/source.br?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=argo-project-sa%40shopify-tiers.iam.gserviceaccount.com%2F20260314%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20260314T171856Z&X-Goog-Expires=3600&X-Goog-SignedHeaders=host&X-Goog-Signature=28d16e0354c363f9950fabd0f25d7f37b8822759a10b01a3ef5aba91d4452b12e7512523a9ab7501fda8fe8180543b5e32b37b7dfdb7c3e4dd58c1a9b9c5cd37d4d36bf1387bfafc41c286359c3f2bdfcf76e662e7baa19e4d4d7bb6060f95744e164271ecf869bd3aced0988507995ea8097dc1767d1967ab12e33d775ec75bb02204fc15e446e4fa2df63262bf5a275359a9dda826e8624a69c32b4a4139e8c59e9fda6a5e0be99c75af98d13a02710f2907b17c79a89498c232ba526d508beee1d62c4845ba43fc9759b191487903b628df431ab5a04ca82cba2ec1cba48bcb33512be49574510116486d18a7b680fea27d350605750d45ed7492ea8cf704",
+  "websocketUrl": "wss://desktops-traveller-dealer-thesis.trycloudflare.com/extensions"
+}
+
+With request headers:
+ - User-Agent: Shopify CLI; v=3.92.1
+ - Keep-Alive: timeout=30
+ - Sec-CH-UA-PLATFORM: darwin
+ - Content-Type: application/json
+
+to https://nowpayments-dev.myshopify.com/app_dev/unstable/graphql.json
+prisma:cli:bin Failed to initialize the command state: Error: ENOENT: no such file or directory, open '/Users/mackmac/Library/Preferences/prisma-nodejs/commands.json' +514ms
+prisma:config:loadConfigFromFile Config file loaded in 38.62ms +437ms
+prisma:config:loadConfigFromFile No config file found in the current working directory /Users/mackmac/nowpayments +0ms
+prisma:getSchema prismaConfig null +41ms
+prisma:getSchema Checking existence of /Users/mackmac/nowpayments/schema.prisma +0ms
+prisma:getSchema Reading schema from single file /Users/mackmac/nowpayments/schema.prisma +0ms
+prisma:getSchema Checking existence of /Users/mackmac/nowpayments/prisma/schema.prisma +0ms
+prisma:getSchema Reading schema from single file /Users/mackmac/nowpayments/prisma/schema.prisma +0ms
+prisma:getConfig Using getConfig Wasm +1ms
+prisma:getConfig config data retrieved without errors in getConfig Wasm +10ms
+prisma:engines binaries to download schema-engine, libquery-engine +563ms
+prisma:getSchema prismaConfig null +3ms
+prisma:getSchema Checking existence of /Users/mackmac/nowpayments/schema.prisma +0ms
+prisma:getSchema Reading schema from single file /Users/mackmac/nowpayments/schema.prisma +0ms
+prisma:getSchema prismaConfig null +0ms
+prisma:getSchema Checking existence of /Users/mackmac/nowpayments/schema.prisma +0ms
+prisma:getSchema Reading schema from single file /Users/mackmac/nowpayments/schema.prisma +0ms
+prisma:getSchema Checking existence of /Users/mackmac/nowpayments/prisma/schema.prisma +0ms
+prisma:getSchema Reading schema from single file /Users/mackmac/nowpayments/prisma/schema.prisma +0ms
+prisma:getSchema Checking existence of /Users/mackmac/nowpayments/prisma/schema.prisma +0ms
+prisma:getSchema Reading schema from single file /Users/mackmac/nowpayments/prisma/schema.prisma +0ms
+prisma:getConfig Using getConfig Wasm +3ms
+prisma:getConfig config data retrieved without errors in getConfig Wasm +0ms
+prisma:cli:checkpoint runCheckpointClientCheck(): Execution time for getting info: 5.760411999999974 ms +0ms
+prisma:cli:checkpoint runCheckpointClientCheck(): Execution time for "await checkpoint.check(data)": 63.640462999999954 ms +63ms
+prisma:loadEnv project root found at /Users/mackmac/nowpayments/package.json +154ms
+prisma:getSchema prismaConfig null +0ms
+prisma:tryLoadEnv Environment variables not found at null +1ms
+prisma:tryLoadEnv Environment variables not found at undefined +0ms
+prisma:tryLoadEnv No Environment variables loaded +0ms
+prisma:getSchema prismaConfig null +0ms
+prisma:getSchema Checking existence of /Users/mackmac/nowpayments/schema.prisma +0ms
+prisma:getSchema Reading schema from single file /Users/mackmac/nowpayments/schema.prisma +0ms
+prisma:getSchema Checking existence of /Users/mackmac/nowpayments/prisma/schema.prisma +0ms
+prisma:getSchema Reading schema from single file /Users/mackmac/nowpayments/prisma/schema.prisma +0ms
+Prisma schema loaded from prisma/schema.prisma
+prisma:getConfig Using getConfig Wasm +1ms
+prisma:getConfig config data retrieved without errors in getConfig Wasm +1ms
+prisma:getDMMF Using getDmmf Wasm +0ms
+prisma:getDMMF dmmf data retrieved without errors in getDmmf Wasm +22ms
+prisma:client:generator requiresEngines [
+  "libqueryEngine"
+] +0ms
+prisma:generator prismaCliDir /Users/mackmac/nowpayments/node_modules/prisma +3ms
+prisma:generator prismaClientDir /Users/mackmac/nowpayments/node_modules/@prisma/client +0ms
+prisma:generator baseDir /Users/mackmac/nowpayments/prisma +0ms
+prisma:mergeSchemas Using mergeSchemas Wasm +0ms
+prisma:loadEnv project root found at /Users/mackmac/nowpayments/node_modules/.pnpm/@prisma+client@6.19.2_prisma@6.19.2_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client/package.json +2ms
+prisma:getSchema prismaConfig null +0ms
+prisma:getGenerators neededVersions {
+  "c2990dca591cba766e3b7ef5d9e8a84796e47ab7": {
+    "engines": [
+      "libqueryEngine"
+    ],
+    "binaryTargets": [
+      {
+        "fromEnvVar": null,
+        "value": "darwin",
+        "native": true
+      }
+    ]
+  }
+} +1ms
+prisma:getGenerators {
+  "generatorBinaryPaths": {
+    "libqueryEngine": {
+      "darwin": "/Users/mackmac/nowpayments/node_modules/.pnpm/prisma@6.19.2_typescript@5.9.3/node_modules/prisma/libquery_engine-darwin.dylib.node"
+    }
+  }
+} +95ms
+2026-03-14T17:32:42.705Z: Request to https://nowpayments-dev.myshopify.com/app_dev/unstable/graphql.json completed in 965 ms
+With response headers:
+ - content-type: application/json; charset=utf-8
+ - server-timing: processing;dur=742, verdict_flag_enabled;desc="count=18";dur=1.24, _y;desc="363aaf16-a2eb-491a-b20c-719a016814a7", _s;desc="3c4096e3-d9d3-44d6-858b-9f0c5ed098e2", cfRequestDuration;dur=832.999945, ipv6
+ - x-request-id: ab9175cc-be92-44dc-8873-67d4fad8e0e2-1773509561
+    
+❌ Error└  [metaobjects]: Requires the following access scope: write_metaobject_definitions╭─ error ──────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  Failed to start dev preview.                                                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+ ELIFECYCLE  Command failed with exit code 1.
