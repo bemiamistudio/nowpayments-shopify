@@ -7,19 +7,10 @@ app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-app.post("/webhooks/orders-create", async (req, res) => {
-  try {
-    console.log("Webhook hit!");
-
-    const order = req.body;
-
-    console.log("ORDER:", order);
-
-    res.sendStatus(200);
-  } catch (err) {
-    console.error(err);
-    res.sendStatus(500);
-  }
+app.post("/webhooks/orders-create", (req, res) => {
+  console.log("WEBHOOK HIT");
+  console.log("ORDER BODY:", JSON.stringify(req.body, null, 2));
+  res.status(200).send("ok");
 });
 
 const PORT = process.env.PORT || 3000;
