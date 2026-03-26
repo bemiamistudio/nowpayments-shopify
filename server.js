@@ -5,27 +5,65 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
+// temporary memory storage for testing
+const payments = {};
+
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
+app.get("/pay", (req, res) => {
+  const orderId = req.query.orderId;
+
+  if (!orderId) {
+    return res.status(400).send("Missing orderId");
+  }
+
+  const payment = payments[orderId];
+
+  if (!payment) {
+    return res.status(404).send("Payment link not found");
+  }
+
+  return res.redirect(payment.paymentUrl);
+});
+
+app.get("/api/payment-link", (req, res) => {
+  const orderId = req.query.orderId;
+
+  if (!orderId) {
+    return res.status(400).json({ error: "Missing orderId" });
+  }
+
+  const payment = payments[orderId];
+
+  if (!payment) {
+    return res.status(404).json({ error: "Payment not found" });
+  }
+
+  return res.json(payment);
+});
+
 app.post("/webhooks/orders-create", async (req, res) => {
   try {
-    console.log("WEBHOOK HIT");
-
     const order = req.body;
-    console.log("ORDER BODY:", JSON.stringify(order, null, 2));
 
+    const orderId = String(order.id);
+    const orderNumber = order.order_number;
+    const orderName = order.name;
     const amount = order.total_price;
-    const orderId = order.id;
 
-    if (!amount || !orderId) {
-      console.log("Missing order amount or order id");
-      return res.status(400).send("Missing order data");
+    console.log("ORDER ID:", orderId);
+    console.log("ORDER NUMBER:", orderNumber);
+    console.log("ORDER NAME:", orderName);
+    console.log("AMOUNT:", amount);
+
+    // stop duplicates for same Shopify order
+    if (payments[orderId]) {
+      console.log("EXISTING PAYMENT FOUND FOR THIS ORDER");
+      console.log("PAYMENT LINK:", payments[orderId].paymentUrl);
+      return res.status(200).send("already exists");
     }
-
-    console.log("Amount:", amount);
-    console.log("Order ID:", orderId);
 
     const response = await fetch("https://api.nowpayments.io/v1/invoice", {
       method: "POST",
@@ -36,14 +74,23 @@ app.post("/webhooks/orders-create", async (req, res) => {
       body: JSON.stringify({
         price_amount: amount,
         price_currency: "usd",
-        order_id: String(orderId),
-        order_description: "Shopify Order " + orderId
+        order_id: orderId,
+        order_description: "Shopify Order " + orderName
       })
     });
 
     const data = await response.json();
 
-    console.log("NOWPAYMENTS RESPONSE:", JSON.stringify(data, null, 2));
+    payments[orderId] = {
+      orderId,
+      orderNumber,
+      orderName,
+      amount,
+      paymentUrl: data.invoice_url,
+      invoiceId: data.id || null
+    };
+
+    console.log("NEW PAYMENT CREATED");
     console.log("PAYMENT LINK:", data.invoice_url);
 
     return res.status(200).send("ok");
